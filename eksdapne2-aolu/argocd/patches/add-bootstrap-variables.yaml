@@ -8,7 +8,7 @@
       awsRegion: ap-northeast-2
       clusterEndpoint: https://F052D9BED71FABEC184CF34D461E5434.gr7.ap-northeast-2.eks.amazonaws.com
       loadBalancerControllerlogLevel: info
-      repoURL: https://github.com/DevopsArtFactory/k8s-value
+      repoURL: https://github.com/DevopsArtFactory/k8s-chart-value
       targetRevision: main
       ingressACM: arn:aws:acm:ap-northeast-2:816736805842:certificate/87a9d99f-8f13-4c3e-b2be-4aef201c0e68
       alb_controller:
@@ -26,6 +26,8 @@
       karpenter:
         enabled: true
         replicas: 1
+        enable_drift: true
+        enable_spotToSpotConsolidation: true
         queueURL: https://sqs.ap-northeast-2.amazonaws.com/816736805842/eksdapne2-aolu-aws-node-termination-handler-queue
         nodeAffinity:
           key: capacity_type

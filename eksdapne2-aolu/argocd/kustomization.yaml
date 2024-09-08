@@ -48,7 +48,7 @@ patches:
       group: networking.k8s.io
       version: v1
       kind: Ingress
-      name: argocd-ingress-v2
+      name: argocd-ingress
     path: patches/specify-ingress-v2-host-certificate.yaml
 
   # Add the bootstrap variables
