@@ -1,0 +1,108 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+resources:
+  - https://github.com/DevopsArtFactory/k8s-common-chart.git/argocd?timeout=90s
+patches:
+  # Setup the git repository metadata in External Secret
+  - target:
+      group: external-secrets.io
+      version: v1beta1
+      kind: ExternalSecret
+      name: k8s-chart-value-repository
+    path: patches/setup-k8s-chart-value-repository.yaml
+
+  # - target:
+  #     group: external-secrets.io
+  #     version: v1beta1
+  #     kind: ExternalSecret
+  #     name: k8s-app-chart-repository
+  #   path: patches/setup-k8s-app-chart-repository.yaml
+
+  - target:
+      group: external-secrets.io
+      version: v1beta1
+      kind: ExternalSecret
+      name: k8s-common-chart-repository
+    path: patches/setup-k8s-common-chart-repository.yaml
+
+
+  # Patch argocd configmap for okta login
+  - target:
+      version: v1
+      kind: ConfigMap
+      name: argocd-cm
+      namespace: argocd
+    path: patches/add-argocd-configmap-data.yaml
+
+  # Add the service account to external secret to get secret values
+  - target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: external-secrets
+    path: patches/attach-external-secret-serviceaccount.yaml
+
+  # specify argocd ingress-v2 host and certificate
+  - target:
+      group: networking.k8s.io
+      version: v1
+      kind: Ingress
+      name: argocd-ingress-v2
+    path: patches/specify-ingress-v2-host-certificate.yaml
+
+  # Add the bootstrap variables
+  - target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: bootstrap
+    path:  patches/add-bootstrap-variables.yaml
+
+  # insert nodeAffinity
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: argocd-server
+    path: patches/add-node-affinity.yaml
+
+  # insert nodeAffinity
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: argocd-repo-server
+    path: patches/add-node-affinity.yaml
+
+  # insert nodeAffinity
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: argocd-dex-server
+    path: patches/add-node-affinity.yaml
+
+  # insert nodeAffinity
+  - target:
+      group: apps
+      version: v1
+      kind: Deployment
+      name: argocd-applicationset-controller
+    path: patches/add-node-affinity.yaml
+
+  # Setup the slack token in External Secret
+  # - target:
+  #     group: external-secrets.io
+  #     version: v1beta1
+  #     kind: ExternalSecret
+  #     name: argocd-notifications-secret
+  #   path: patches/setup-argocd-slack-token.yaml
+
+  # Patch argocd notification configmap for slack notification
+  # - target:
+  #     version: v1
+  #     kind: ConfigMap
+  #     name: argocd-notifications-cm
+  #     namespace: argocd
+  #   path: patches/add-argocd-configmap-notification.yaml

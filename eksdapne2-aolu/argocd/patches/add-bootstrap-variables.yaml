@@ -1,0 +1,54 @@
+- op: add
+  path: /spec/source/helm
+  value:
+    values: |
+      clusterName: eksdapne2-aolu
+      accountId: "816736805842"
+      vpcName: eksd_apnortheast2
+      awsRegion: ap-northeast-2
+      clusterEndpoint: https://F052D9BED71FABEC184CF34D461E5434.gr7.ap-northeast-2.eks.amazonaws.com
+      loadBalancerControllerlogLevel: info
+      repoURL: https://github.com/DevopsArtFactory/k8s-value
+      targetRevision: main
+      ingressACM: arn:aws:acm:ap-northeast-2:816736805842:certificate/87a9d99f-8f13-4c3e-b2be-4aef201c0e68
+      alb_controller:
+        nodeAffinity:
+          key: capacity_type
+          value: spot
+      nth:
+        nodeAffinity:
+          key: capacity_type
+          value: spot
+      metrics_server:
+        nodeAffinity:
+          key: capacity_type
+          value: spot
+      karpenter:
+        enabled: true
+        replicas: 1
+        queueURL: https://sqs.ap-northeast-2.amazonaws.com/816736805842/eksdapne2-aolu-aws-node-termination-handler-queue
+        nodeAffinity:
+          key: capacity_type
+          value: cpu_on_demand
+      argoRollouts:
+        enabled: false
+        ingressHost: argo-rollouts.devart.tv
+      istio:
+        enabled: true
+        nodeAffinity:
+          key: capacity_type
+          value: spot
+      datadog:
+        enabled: false
+
+- op: add
+  path: /spec/source/repoURL
+  value: https://github.com/DevopsArtFactory/k8s-common-chart
+
+- op: add
+  path: /spec/source/targetRevision
+  value: main
+
+- op: add
+  path: /spec/source/path
+  value: bootstrap

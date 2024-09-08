@@ -1,0 +1,7 @@
+- op: add
+  path: /data
+  value:
+    url: https://argocd.devart.tv
+    statusbadge.enabled: "true"
+    admin.enabled: "true"
+    timeout.reconciliation: "60s"
