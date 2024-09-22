@@ -14,15 +14,15 @@
       alb_controller:
         nodeAffinity:
           key: capacity_type
-          value: spot
+          value: cpu_on_demand
       nth:
         nodeAffinity:
           key: capacity_type
-          value: spot
+          value: cpu_on_demand
       metrics_server:
         nodeAffinity:
           key: capacity_type
-          value: spot
+          value: cpu_on_demand
       karpenter:
         enabled: true
         replicas: 1
@@ -34,12 +34,11 @@
           value: cpu_on_demand
       argoRollouts:
         enabled: false
-        ingressHost: argo-rollouts.devart.tv
       istio:
         enabled: true
         nodeAffinity:
           key: capacity_type
-          value: spot
+          value: cpu_on_demand
       datadog:
         enabled: false
 

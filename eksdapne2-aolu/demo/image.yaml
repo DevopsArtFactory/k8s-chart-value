@@ -1,0 +1,3 @@
+iamge:
+  repository: public.ecr.aws/kishorj/docker-2048
+  tag: latest

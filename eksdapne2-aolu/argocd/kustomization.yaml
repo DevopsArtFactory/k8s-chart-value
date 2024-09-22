@@ -12,12 +12,12 @@ patches:
       name: k8s-chart-value-repository
     path: patches/setup-k8s-chart-value-repository.yaml
 
-  # - target:
-  #     group: external-secrets.io
-  #     version: v1beta1
-  #     kind: ExternalSecret
-  #     name: k8s-app-chart-repository
-  #   path: patches/setup-k8s-app-chart-repository.yaml
+  - target:
+      group: external-secrets.io
+      version: v1beta1
+      kind: ExternalSecret
+      name: k8s-app-chart-repository
+    path: patches/setup-k8s-app-chart-repository.yaml
 
   - target:
       group: external-secrets.io
