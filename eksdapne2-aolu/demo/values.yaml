@@ -10,7 +10,6 @@ namespace: demo
 replicaCount: 1
 terminationGracePeriodSeconds: 1800 # 30 min
 
-
 ### HPA Config
 autoscaling:
   enabled: false
@@ -42,7 +41,6 @@ ports:
 service:
   type: ClusterIP
   port: 80
-
 
 ### Pod LifeCycle Config
 readinessProbe:
