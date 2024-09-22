@@ -100,7 +100,8 @@ ingress:
   hosts:
     - http:
       paths:
-        - pathType: /
+        - pathType: Prefix
+          path: /
           backend:
             service:
               name: istio-ingressgateway
