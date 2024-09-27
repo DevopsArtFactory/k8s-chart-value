@@ -1,0 +1,14 @@
+# Add alb certificate annotation for changing domain
+- op: add
+  path: /metadata/annotations/alb.ingress.kubernetes.io~1certificate-arn
+  value: arn:aws:acm:ap-northeast-2:816736805842:certificate/87a9d99f-8f13-4c3e-b2be-4aef201c0e68
+
+# Add hostname annotation for changing domain
+- op: add
+  path: /metadata/annotations/external-dns.alpha.kubernetes.io~1hostname
+  value: argocd-yj.devart.tv
+
+# Replace the host for changing domain
+- op: replace
+  path: /spec/rules/0/host
+  value: argocd-yj.devart.tv

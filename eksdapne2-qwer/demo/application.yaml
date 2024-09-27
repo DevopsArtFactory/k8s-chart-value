@@ -1,0 +1,28 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: demo-app
+  namespace: argocd
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/DevopsArtFactory/k8s-app-cahrt
+      targetRevision: 0.0.1
+      path: demo
+      helm:
+        valueFiles:
+          - $values/eksdapne2-qwer/demo/values.yaml
+          - $values/eksdapne2-qwer/demo/image.yaml
+    - repoURL: https://github.com/DevopsArtFactory/k8s-chart-value.git
+      targetRevision: main
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
