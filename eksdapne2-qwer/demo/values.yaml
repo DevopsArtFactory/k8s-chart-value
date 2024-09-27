@@ -80,7 +80,7 @@ resources:
 
 ### Ingress Config
 ingress:
-  enabled: true
+  enabled: false
   className: "alb"
   annotations:
     alb.ingress.kubernetes.io/ssl-redirect: '443'
