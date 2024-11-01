@@ -1,0 +1,56 @@
+- op: add
+  path: /spec/source/helm
+  value:
+    values: |
+      clusterName: tmcdapne2-nhwy
+      accountId: "066346343248"
+      vpcName: tmcd_apnortheast2
+      awsRegion: ap-northeast-2
+      clusterEndpoint: https://4FAA4D8033C67B4DC384D17A12128763.gr7.ap-northeast-2.eks.amazonaws.com
+      loadBalancerControllerlogLevel: info
+      repoURL: https://github.com/DevopsArtFactory/k8s-chart-value
+      targetRevision: main
+      ingressACM: arn:aws:acm:ap-northeast-2:066346343248:certificate/10d501d4-a8c8-4358-9996-98060a907e47
+      alb_controller:
+        nodeAffinity:
+          key: capacity_type
+          value: cpu_on_demand
+      nth:
+        nodeAffinity:
+          key: capacity_type
+          value: cpu_on_demand
+      metrics_server:
+        nodeAffinity:
+          key: capacity_type
+          value: cpu_on_demand
+      karpenter:
+        enabled: true
+        replicas: 1
+        enable_drift: true
+        enable_spotToSpotConsolidation: true
+        queueURL: https://sqs.ap-northeast-2.amazonaws.com/066346343248/tmcdapne2-nhwy-aws-node-termination-handler-queue
+        nodeAffinity:
+          key: capacity_type
+          value: cpu_on_demand
+      argoRollouts:
+        enabled: false
+      istio:
+        enabled: true
+        nodeAffinity:
+          key: capacity_type
+          value: cpu_on_demand
+      datadog:
+        enabled: false
+      actionsrunner:
+        enabled: true        
+- op: add
+  path: /spec/source/repoURL
+  value: https://github.com/DevopsArtFactory/k8s-common-chart
+
+- op: add
+  path: /spec/source/targetRevision
+  value: main
+
+- op: add
+  path: /spec/source/path
+  value: bootstrap

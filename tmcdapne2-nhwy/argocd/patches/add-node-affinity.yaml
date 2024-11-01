@@ -1,0 +1,11 @@
+- op: add
+  path: /spec/template/spec/affinity
+  value:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+            - key: capacity_type
+              operator: In
+              values:
+                - cpu_on_demand
