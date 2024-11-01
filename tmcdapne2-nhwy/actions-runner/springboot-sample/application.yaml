@@ -12,7 +12,7 @@ spec:
       path: actions-runner
       helm:
         valueFiles:
-          - $values/tmcdapne2-nhwy/actions-runner/values.yaml
+          - $values/tmcdapne2-nhwy/actions-runner/springboot-sample/values.yaml
     - repoURL: https://github.com/DevopsArtFactory/k8s-chart-value.git
       targetRevision: main
       ref: values
