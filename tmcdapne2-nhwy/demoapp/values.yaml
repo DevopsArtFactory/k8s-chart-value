@@ -73,10 +73,10 @@ resources:
   # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   limits:
     cpu: 500m
-    memory: 1Gi
+    memory: 2Gi
   requests:
     cpu: 500m
-    memory: 1Gi
+    memory: 2Gi
 
 
 ### Ingress Config
