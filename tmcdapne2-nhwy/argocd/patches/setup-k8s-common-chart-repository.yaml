@@ -1,0 +1,10 @@
+# Add repository data in the ClusterSecretStore
+- op: add
+  path: /spec/target/template/data/url
+  value: https://github.com/DevopsArtFactory/k8s-common-chart
+
+
+# Add username of repository data in the ClusterSecretStore
+- op: add
+  path: /spec/target/template/data/username
+  value: YoungJinJung

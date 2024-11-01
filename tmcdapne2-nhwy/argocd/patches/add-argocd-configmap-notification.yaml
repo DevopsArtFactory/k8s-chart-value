@@ -1,0 +1,170 @@
+# - op: add
+#   path: /data
+#   value:
+#     context: |
+#       argocdUrl: https://argocd.devart.tv
+#     service.slack: |
+#       token: $slack-token
+#     defaultTriggers: |
+#       - on-deployed
+#       - on-sync-failed
+#       - on-sync-succeeded
+#       - on-health-degraded
+#     template.app-deployed: |
+#       message: |
+#         {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} is now running new version of deployments manifests.
+#       slack:
+#         attachments: |
+#           [{
+#             "title": "{{ .app.metadata.name}}",
+#             "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+#             "color": "#18be52",
+#             "fields": [
+#             {
+#               "title": "Sync Status",
+#               "value": "{{.app.status.sync.status}}",
+#               "short": true
+#             },
+#             {
+#               "title": "Repositories",
+#               "value": "{{ range .app.spec.sources }}- {{ .repoURL }}\n{{ end}}",
+#               "short": false
+#             },
+#             {
+#               "title": "Revisions",
+#               "value": "{{ range .app.status.sync.revisions }}- {{ . }}\n{{ end}}",
+#               "short": false
+#             }
+#             {{range $index, $c := .app.status.conditions}}
+#             {{if not $index}},{{end}}
+#             {{if $index}},{{end}}
+#             {
+#               "title": "{{$c.type}}",
+#               "value": "{{$c.message}}",
+#               "short": true
+#             }
+#             {{end}}
+#             ]
+#           }]
+#     template.app-sync-failed: |
+#       message: |
+#         {{if eq .serviceType "slack"}}:exclamation:{{end}}  The sync operation of application {{.app.metadata.name}} has failed at {{.app.status.operationState.finishedAt}} with the following error: {{.app.status.operationState.message}}
+#         Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+#       slack:
+#         attachments: |-
+#           [{
+#             "title": "{{ .app.metadata.name}}",
+#             "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+#             "color": "#E96D76",
+#             "fields": [
+#             {
+#               "title": "Sync Status",
+#               "value": "{{.app.status.sync.status}}",
+#               "short": true
+#             },
+#             {
+#               "title": "Repositories",
+#               "value": "{{ range .app.spec.sources }}- {{ .repoURL }}\n{{ end}}",
+#               "short": false
+#             }
+#             {{range $index, $c := .app.status.conditions}}
+#             {{if not $index}},{{end}}
+#             {{if $index}},{{end}}
+#             {
+#               "title": "{{$c.type}}",
+#               "value": "{{$c.message}}",
+#               "short": true
+#             }
+#             {{end}}
+#             ]
+#           }]
+
+#     template.app-sync-succeeded: |
+#       message: |
+#         {{if eq .serviceType "slack"}}:white_check_mark:{{end}} Application {{.app.metadata.name}} has been successfully synced at {{.app.status.operationState.finishedAt}}.
+#         Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+#       slack:
+#         attachments: |-
+#           [{
+#             "title": "{{ .app.metadata.name}}",
+#             "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+#             "color": "#18be52",
+#             "fields": [
+#               {
+#                 "title": "Sync Status",
+#                 "value": "{{.app.status.sync.status}}",
+#                 "short": true
+#               },
+#               {
+#                 "title": "Repositories",
+#                 "value": "{{ range .app.spec.sources }}- {{ .repoURL }}\n{{ end}}",
+#                 "short": false
+#               }
+#               {{range $index, $c := .app.status.conditions}}
+#               {{if not $index}},{{end}}
+#               {{if $index}},{{end}}
+#               {
+#                 "title": "{{$c.type}}",
+#                 "value": "{{$c.message}}",
+#                 "short": true
+#               }
+#               {{end}}
+#             ]
+#           }]
+#     template.app-health-degraded: |
+#       message: |
+#         {{if eq .serviceType "slack"}}:warning:{{end}} Application {{.app.metadata.name}} is experiencing degraded health.
+#         Sync operation details are available at: {{.context.argocdUrl}}/applications/{{.app.metadata.name}}
+#       slack:
+#         attachments: |-
+#           [{
+#             "title": "{{ .app.metadata.name}}",
+#             "title_link":"{{.context.argocdUrl}}/applications/{{.app.metadata.name}}",
+#             "color": "#FF0000",
+#             "fields": [
+#               {
+#                 "title": "Sync Status",
+#                 "value": "{{.app.status.sync.status}}",
+#                 "short": true
+#               },
+#               {
+#                 "title": "Repositories",
+#                 "value": "{{ range .app.spec.sources }}- {{ .repoURL }}\n{{ end}}",
+#                 "short": false
+#               }
+#               {{range $index, $c := .app.status.conditions}}
+#               {{if not $index}},{{end}}
+#               {{if $index}},{{end}}
+#               {
+#                 "title": "{{$c.type}}",
+#                 "value": "{{$c.message}}",
+#                 "short": true
+#               }
+#               {{end}}
+#             ]
+#           }]
+
+#     trigger.on-deployed: |
+#       - description: Application is synced and healthy. Triggered once per commit.
+#         oncePer: app.status.sync.revisions
+#         send:
+#         - app-deployed
+#         when: app.status.operationState.phase in ['Succeeded'] and app.status.health.status == 'Healthy'
+#     trigger.on-sync-failed: |
+#       - description: Application syncing has failed
+#         send:
+#         - app-sync-failed
+#         when: app.status.operationState.phase in ['Error', 'Failed']
+
+#     trigger.on-sync-succeeded: |
+#       - description: Application syncing has succeeded
+#         send:
+#         - app-sync-succeeded
+#         when: app.status.operationState.phase in ['Succeeded']
+#     trigger.on-health-degraded: |
+#       - description: Application syncing has succeeded
+#         oncePer: app.status.sync.revisions
+#         send:
+#         - app-health-degraded
+#         when: app.status.health.status in ['Degraded']     
+  
