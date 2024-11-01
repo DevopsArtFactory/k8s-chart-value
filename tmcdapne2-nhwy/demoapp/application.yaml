@@ -8,7 +8,7 @@ spec:
   project: default
   sources:
     - repoURL: https://github.com/DevopsArtFactory/k8s-app-cahrt
-      targetRevision: 0.0.1
+      targetRevision: main
       path: demo
       helm:
         valueFiles:
