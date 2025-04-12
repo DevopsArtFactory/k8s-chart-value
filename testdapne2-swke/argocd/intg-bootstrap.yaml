@@ -1,0 +1,57 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: testdapne2-swke-application
+spec:
+  description: applications managed by developer
+  sourceRepos:
+    - "*"
+  destinations:
+    - namespace: "*"
+      server: https://C0B4BB1DBE23C8D97FFA9C02008CD301.gr7.ap-northeast-2.eks.amazonaws.com
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: testdapne2-swke-infra
+spec:
+  description: applications managed by DevOps team
+  sourceRepos:
+    - "*"
+  destinations:
+    - namespace: "*"
+      server: https://C0B4BB1DBE23C8D97FFA9C02008CD301.gr7.ap-northeast-2.eks.amazonaws.com
+    - namespace: "*"
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: "*"
+      kind: "*"
+  namespaceResourceWhitelist:
+    - group: "*"
+      kind: "*"
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: testdapne2-swke-bootstrap
+spec:
+  project: ""
+  source:
+    repoURL: null
+    targetRevision: null
+    path: null
+    helm: null
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
