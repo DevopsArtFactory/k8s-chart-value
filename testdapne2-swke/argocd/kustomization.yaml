@@ -1,0 +1,14 @@
+# this is bootstrap for integrated argocd, please apply to integrated cluster
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: argocd
+resources:
+  - intg-bootstrap.yaml
+patches:
+  # Add the bootstrap variables
+  - target:
+      group: argoproj.io
+      version: v1alpha1
+      kind: Application
+      name: testdapne2-swke-bootstrap
+    path: patches/add-bootstrap-variables.yaml

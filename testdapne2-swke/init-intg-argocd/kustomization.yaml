@@ -1,0 +1,5 @@
+# this is bootstrap for integrated argocd, please apply to integrated cluster
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - https://github.com/DevopsArtFactory/k8s-common-chart.git/init-intg-argocd?timeout=90s

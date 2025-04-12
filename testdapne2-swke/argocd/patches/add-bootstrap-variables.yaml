@@ -2,11 +2,12 @@
   path: /spec/source/helm
   value:
     values: |
-      clusterName: eksdapne2-aolu
+      clusterName: testdapne2-swke
       accountId: "816736805842"
-      vpcName: eksd_apnortheast2
+      vpcName: testd_apnortheast2
       awsRegion: ap-northeast-2
-      clusterEndpoint: https://F052D9BED71FABEC184CF34D461E5434.gr7.ap-northeast-2.eks.amazonaws.com
+      destinationServer: https://C0B4BB1DBE23C8D97FFA9C02008CD301.gr7.ap-northeast-2.eks.amazonaws.com
+      clusterEndpoint: https://C0B4BB1DBE23C8D97FFA9C02008CD301.gr7.ap-northeast-2.eks.amazonaws.com
       loadBalancerControllerlogLevel: info
       repoURL: https://github.com/DevopsArtFactory/k8s-chart-value
       targetRevision: main
@@ -19,16 +20,12 @@
         nodeAffinity:
           key: capacity_type
           value: cpu_on_demand
-      metrics_server:
-        nodeAffinity:
-          key: capacity_type
-          value: cpu_on_demand
       karpenter:
         enabled: true
-        replicas: 1
+        replicas: 2
         enable_drift: true
         enable_spotToSpotConsolidation: true
-        queueURL: https://sqs.ap-northeast-2.amazonaws.com/816736805842/eksdapne2-aolu-aws-node-termination-handler-queue
+        queueURL: https://sqs.ap-northeast-2.amazonaws.com/816736805842/testdapne2-swke-aws-node-termination-handler-queue
         nodeAffinity:
           key: capacity_type
           value: cpu_on_demand
@@ -39,8 +36,11 @@
         nodeAffinity:
           key: capacity_type
           value: cpu_on_demand
-      datadog:
-        enabled: false
+        meshConfig:
+          outboundTrafficPolicy: ALLOW_ANY
+          defaultProviders:
+            metrics:
+              - prometheus
 
 - op: add
   path: /spec/source/repoURL
@@ -52,4 +52,8 @@
 
 - op: add
   path: /spec/source/path
-  value: bootstrap
+  value: intg-bootstrap
+
+- op: add
+  path: /spec/project
+  value: testdapne2-swke-infra
