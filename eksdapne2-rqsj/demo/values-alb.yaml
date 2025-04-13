@@ -2,8 +2,8 @@
 ### Declare variables to be passed into your templates.
 
 ### Default values for nudl-batch.
-nameOverride: "demo"
-fullnameOverride: "demo-app"
+nameOverride: "demo-alb"
+fullnameOverride: "demo-app-alb"
 namespace: demo
 
 ### Pod Config
@@ -101,7 +101,7 @@ ingress:
           path: /
           backend:
             service:
-              name: istio-ingressgateway
+              name: demo-app-alb
               port:
                 number: 80
   tls: []

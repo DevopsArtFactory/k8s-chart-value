@@ -2,8 +2,8 @@
 ### Declare variables to be passed into your templates.
 
 ### Default values for nudl-batch.
-nameOverride: "demo"
-fullnameOverride: "demo-app"
+nameOverride: "demo-nlb"
+fullnameOverride: "demo-app-nlb"
 namespace: demo
 
 ### Pod Config
@@ -39,8 +39,20 @@ ports:
   protocol: TCP
 
 service:
-  type: ClusterIP
+  # This sets the service type more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types
+  type: LoadBalancer
+  # This sets the ports more information can be found here: https://kubernetes.io/docs/concepts/services-networking/service/#field-spec-ports
   port: 80
+  annotations:  
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-scheme: "internet-facing"
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip    
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-northeast-2:816736805842:certificate/87a9d99f-8f13-4c3e-b2be-4aef201c0e68
+    service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
+    external-dns.alpha.kubernetes.io/hostname: "2048game-nlb.devart.tv"    
+
 
 ### Pod LifeCycle Config
 readinessProbe:
@@ -80,7 +92,7 @@ resources:
 
 ### Ingress Config
 ingress:
-  enabled: true
+  enabled: false
   className: "alb"
   annotations:
     alb.ingress.kubernetes.io/ssl-redirect: '443'
@@ -93,15 +105,15 @@ ingress:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
     alb.ingress.kubernetes.io/inbound-cidrs: "121.136.217.18/32"
-    external-dns.alpha.kubernetes.io/hostname: "demo.devart.tv"
+    external-dns.alpha.kubernetes.io/hostname: 2048game-alb.devart.tv
   hosts:
-    - http:
+    - host: 2048game-alb.devart.tv
       paths:
-        - pathType: Prefix
-          path: /
+        - path: /
+          pathType: Prefix
           backend:
             service:
-              name: istio-ingressgateway
+              name: service-2048
               port:
                 number: 80
   tls: []
