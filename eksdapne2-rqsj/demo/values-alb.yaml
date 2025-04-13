@@ -93,12 +93,12 @@ ingress:
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS13-1-2-2021-06
     alb.ingress.kubernetes.io/inbound-cidrs: "121.136.217.18/32"
-    external-dns.alpha.kubernetes.io/hostname: "demo.devart.tv"
+    external-dns.alpha.kubernetes.io/hostname: 2048game-alb.devart.tv
   hosts:
-    - http:
+    - host: 2048game-alb.devart.tv
       paths:
-        - pathType: Prefix
-          path: /
+        - path: /
+          pathType: Prefix
           backend:
             service:
               name: demo-app-alb
