@@ -92,12 +92,12 @@ patches:
       name: argocd-applicationset-controller
     path: patches/add-node-affinity.yaml
 
-  - target:
-      group: external-secrets.io
-      version: v1beta1
-      kind: ExternalSecret
-      name: testdapne2-swke-secret
-    path: patches/setup-argocd-testdapne2-swke-config.yaml
+  # - target:
+  #     group: external-secrets.io
+  #     version: v1beta1
+  #     kind: ExternalSecret
+  #     name: testdapne2-swke-secret
+  #   path: patches/setup-argocd-testdapne2-swke-config.yaml
 
   # Setup the slack token in External Secret
   # - target:

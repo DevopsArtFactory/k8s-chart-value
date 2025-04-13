@@ -1,17 +1,17 @@
-- op: replace
-  path: /spec/data
-  value:
-    - secretKey: testdapne2_swke_argocd_manager_token
-      remoteRef:
-        key: /argoCD/testdapne2_swke/argocd_manager/token
-    - secretKey: testdapne2_swke_caData
-      remoteRef:
-        key: /argoCD/testdapne2_swke/argocd_manager/caData
+# - op: replace
+#   path: /spec/data
+#   value:
+#     - secretKey: testdapne2_swke_argocd_manager_token
+#       remoteRef:
+#         key: /argoCD/testdapne2_swke/argocd_manager/token
+#     - secretKey: testdapne2_swke_caData
+#       remoteRef:
+#         key: /argoCD/testdapne2_swke/argocd_manager/caData
 
-- op: add
-  path: /spec/target/template/data/name
-  value: testdapne2-swke
+# - op: add
+#   path: /spec/target/template/data/name
+#   value: testdapne2-swke
 
-- op: add
-  path: /spec/target/template/data/server
-  value: https://C0B4BB1DBE23C8D97FFA9C02008CD301.gr7.ap-northeast-2.eks.amazonaws.com
+# - op: add
+#   path: /spec/target/template/data/server
+#   value: https://C0B4BB1DBE23C8D97FFA9C02008CD301.gr7.ap-northeast-2.eks.amazonaws.com
