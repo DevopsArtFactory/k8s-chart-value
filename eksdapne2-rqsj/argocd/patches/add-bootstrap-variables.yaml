@@ -6,7 +6,7 @@
       accountId: "816736805842"
       vpcName: eksd_apnortheast2
       awsRegion: ap-northeast-2
-      clusterEndpoint: https://C6E12160CD1A2ACF536B95FAB01DC364.gr7.ap-northeast-2.eks.amazonaws.com
+      clusterEndpoint: https://8EEE87F9390A91B3C8BD25E215934531.gr7.ap-northeast-2.eks.amazonaws.com
       loadBalancerControllerlogLevel: info
       repoURL: https://github.com/DevopsArtFactory/k8s-chart-value
       targetRevision: main
