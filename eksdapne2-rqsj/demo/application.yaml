@@ -2,17 +2,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: demo-apps
+  name: demo-app
   namespace: argocd
 spec:
   project: default
   sources:
     - repoURL: https://github.com/DevopsArtFactory/k8s-app-cahrt
-      targetRevision: main
-      path: demo-apps
+      targetRevision: 0.0.1
+      path: demo
       helm:
         valueFiles:
-          - $values/eksdapne2-rqsj/demo/values.yaml
+          - $values/eksdapne2-aolu/demo/values.yaml
+          - $values/eksdapne2-aolu/demo/image.yaml
     - repoURL: https://github.com/DevopsArtFactory/k8s-chart-value.git
       targetRevision: main
       ref: values
